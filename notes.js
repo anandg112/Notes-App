@@ -1,5 +1,3 @@
-console.log('Starting notes.js')
-
 const fs = require('fs');
 const _ = require('lodash');
 
@@ -33,25 +31,37 @@ if(duplicateNotes.length === 0){
 };
 
 var getAll = () => {
-  console.log("Getting all notes");
+  return fetchNotes();
 };
 
  var getNote = (title) => {
-  console.log("Fetching", title);
+  //fetch notes
+  var notes = fetchNotes();
+  //notes.filter, only return notes whose titles matches the argument
+  var filteredNotes = notes.filter((note) => note.title === title);
+  //return the note;
+  return filteredNotes[0];
 };
 
 var removeNote = (title) => {
   //fetch notes
   var notes = fetchNotes();
   //filter notes, removing the title of argument
-  var remainingNotes = notes.filter((note) => note.title !== title)
+  var remainingNotes = notes.filter((note) => note.title !== title);
   //save new notes array
   saveNotes(remainingNotes);
 
   return notes.length !== remainingNotes.length;
 };
 
+var logNote = (note) => {
+  console.log('--');
+  console.log(`Note title: ${note.title}`);
+  console.log(`Note body: ${note.body}`);
+};
+
 module.exports = {
+  logNote,
   addNote,
   getAll,
   getNote,
